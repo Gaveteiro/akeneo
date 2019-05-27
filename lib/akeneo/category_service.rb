@@ -4,9 +4,9 @@ require_relative './service_base.rb'
 
 module Akeneo
   class CategoryService < ServiceBase
-    def all(page=nil, limit=100)
+    def all
       Enumerator.new do |categories|
-        request_url = "/categories"
+        request_url = "/categories?#{limit_param}"
 
         loop do
           response = get_request(request_url)

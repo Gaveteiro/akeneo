@@ -8,14 +8,14 @@ describe Akeneo::FamilyService do
   let(:service)      { described_class.new(url: url, access_token: access_token) }
 
   describe '#all' do
-    let(:request_url) { "http://akeneo.api/api/rest/v1/families" }
-    let(:response_body) { 
+    let(:request_url) { 'http://akeneo.api/api/rest/v1/families?limit=100' }
+    let(:response_body) do
       {
         '_embedded' => {
           'items' => []
         }
       }.to_json
-    }
+    end
     let(:response_status) { 200 }
     let(:response_headers) { { 'Content-Type' => 'application/json' } }
 
@@ -34,7 +34,7 @@ describe Akeneo::FamilyService do
 
       expect(WebMock).to have_requested(
         :get,
-        'http://akeneo.api/api/rest/v1/families'
+        'http://akeneo.api/api/rest/v1/families?limit=100'
       )
     end
 
@@ -44,7 +44,6 @@ describe Akeneo::FamilyService do
       expect(response).to be_a(Enumerator)
     end
   end
-
 
   describe '#find' do
     let(:family_code) { 'a_family_code' }

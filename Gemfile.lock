@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     akeneo (1.7.0)
-      httparty
+      httparty (~> 0.17.0)
       mime-types
       redis
       semantic_logger

@@ -21,8 +21,8 @@ client.product(511707)
 # => {"identifier"=>"511707", "family"=>"simple_product", "parent"=>nil, "groups"=>[]...
 
 Some methods with parameters is inside services classes, and be called that way
-client.family_service.all(page=2, limit=50)
-# => Returns list of families with pagination and limit
+client.family_service.all
+# => Returns a Enumeration to list all families
 
 client.product_service.create(object)
 # => Returns a JSON with status code relative to what happened

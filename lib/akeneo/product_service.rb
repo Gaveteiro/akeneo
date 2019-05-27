@@ -45,7 +45,7 @@ module Akeneo
     end
 
     def create(product_object)
-      patch_for_create_request("/products", body: product_object.to_json)
+      patch_for_create_request('/products', body: product_object.to_json)
     end
 
     private

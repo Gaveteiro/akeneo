@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'webmock'
-  spec.add_dependency 'httparty'
+  spec.add_dependency 'httparty', '~> 0.17.0'
   spec.add_dependency 'mime-types'
   spec.add_dependency 'redis'
   spec.add_dependency 'semantic_logger'

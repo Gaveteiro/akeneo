@@ -103,9 +103,31 @@ describe Akeneo::ProductService do
           'parent' => nil
         }
       end
+      let(:sister_product) do
+        {
+          'identifier' => 'sister_product_id',
+          'family' => 'family_code',
+          'parent' => 'a_parent_code'
+        }
+      end
+      let(:product_from_same_family_with_different_parent) do
+        {
+          'identifier' => 404,
+          'family' => 'family_code',
+          'parent' => 'different_parent_code'
+        }
+      end
+      let(:all_products_from_family) do
+        [
+          product,
+          sister_product,
+          product_from_same_family_with_different_parent
+        ]
+      end
 
       before do
         allow(product_model_service).to receive(:find).and_return(parent)
+        allow(service).to receive(:all) { all_products_from_family }
       end
 
       it 'requests the akeneo parent' do
@@ -114,9 +136,15 @@ describe Akeneo::ProductService do
         expect(product_model_service).to have_received(:find).with(parent_code)
       end
 
-      it 'returns only the product, is this right @schnika?' do
+      it 'requests all products with the parent family' do
+        service.brothers_and_sisters(product_id)
+
+        expect(service).to have_received(:all).with(with_family: 'family_code')
+      end
+
+      it 'returns the product with the sisters product' do
         actual = service.brothers_and_sisters(product_id)
-        expected = [product]
+        expected = [product, sister_product]
 
         expect(actual).to eql(expected)
       end
@@ -375,6 +403,21 @@ describe Akeneo::ProductService do
       service.create_or_update(code, options)
 
       expect(WebMock).to have_requested(:patch, request_url).with(body: '{"some":"data"}')
+    end
+  end
+
+  describe '#create_several' do
+    let(:product_objects) { { 'product' => 'objects' } }
+    let(:request_url) { 'http://akeneo.api/api/rest/v1/products' }
+
+    before do
+      stub_request(:patch, request_url)
+    end
+
+    it 'makes the request to create several products' do
+      service.create_several(product_objects)
+
+      expect(WebMock).to have_requested(:patch, request_url).with(body: '{"product":"objects"}')
     end
   end
 end

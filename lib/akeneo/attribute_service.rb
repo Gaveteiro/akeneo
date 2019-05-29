@@ -36,7 +36,7 @@ module Akeneo
     end
 
     def create_option(attribute_code, json)
-      post_request("/attributes/#{attribute_code}/options", body: json)
+      post_request("/attributes/#{attribute_code}/options", body: JSON.generate(json))
     end
   end
 end

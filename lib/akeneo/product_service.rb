@@ -45,7 +45,7 @@ module Akeneo
     end
 
     def create_several(product_objects)
-      patch_for_collection_request('/products', body: product_objects.to_json)
+      patch_for_collection_request('/products', body: product_objects)
     end
 
     private

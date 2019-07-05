@@ -42,5 +42,18 @@ module Akeneo
     def create_several(attribute_code, json)
       patch_for_collection_request("/attributes/#{attribute_code}/options", body: json)
     end
+
+    def all_options(attribute_code)
+      Enumerator.new do |options|
+        request_url = "/attributes/#{attribute_code}/options?#{limit_param}"
+
+        loop do
+          response = get_request(request_url)
+          extract_collection_items(response).each { |option| options << option }
+          request_url = extract_next_page_path(response)
+          break unless request_url
+        end
+      end
+    end
   end
 end

@@ -34,5 +34,13 @@ module Akeneo
 
       response.parsed_response if response.success?
     end
+
+    def create_option(attribute_code, json)
+      post_request("/attributes/#{attribute_code}/options", body: JSON.generate(json))
+    end
+
+    def create_several(attribute_code, json)
+      patch_for_collection_request("/attributes/#{attribute_code}/options", body: json)
+    end
   end
 end

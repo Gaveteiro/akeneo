@@ -19,7 +19,7 @@ module Akeneo
 
     def find_by(custom_field, value)
       path = "/products?#{pagination_param}&#{limit_param}"
-      path + "&search={'#{custom_field}':['operator':'=','value':'#{value}'}]}"
+      path = path + "&search={'#{custom_field}':['operator':'=','value':'#{value}'}]}"
 
       response = get_request(path)
       extract_collection_items(response) #.each { |product| products << product }

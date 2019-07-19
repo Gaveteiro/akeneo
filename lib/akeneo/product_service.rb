@@ -17,6 +17,14 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
+    def find_by(custom_field, value)
+      path = "/products?#{pagination_param}&#{limit_param}"
+      path + "&search={'#{custom_field}':['operator':'=','value':'#{value}'}]}"
+
+      response = get_request(path)
+      extract_collection_items(response) #.each { |product| products << product }
+    end
+
     def brothers_and_sisters(id)
       akeneo_product = find(id)
       akeneo_parent = load_akeneo_parent(akeneo_product['parent'])

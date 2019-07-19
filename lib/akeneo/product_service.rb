@@ -18,9 +18,10 @@ module Akeneo
     end
 
     def find_by(custom_field, value)
-      path = "/products?#{pagination_param}&#{limit_param}"
       hash = {}
       hash[custom_field] = [{ operator: '=', value: value }]
+      
+      path = "/products?#{pagination_param}&#{limit_param}"
       path = path + "&search=#{hash.to_json}"
 
       response = get_request(path)

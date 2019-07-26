@@ -3,6 +3,7 @@
 require_relative './attribute_service'
 require_relative './authorization_service'
 require_relative './category_service'
+require_relative './entity_service'
 require_relative './family_service'
 require_relative './image_service'
 require_relative './measure_family_service'

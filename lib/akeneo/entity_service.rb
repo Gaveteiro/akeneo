@@ -7,7 +7,6 @@ module Akeneo
     def initialize(url:, access_token:)
       @url = url
       @access_token = access_token
-
     end
 
     def create_several_entity_records(entity_name, entity_records)

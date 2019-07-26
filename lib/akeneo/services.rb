@@ -25,6 +25,10 @@ module Akeneo
       CategoryService.new(url: url, access_token: fresh_access_token)
     end
 
+    def entity_service
+      EntityService.new(url: url, access_token: fresh_access_token)
+    end
+
     def family_service
       FamilyService.new(url: url, access_token: fresh_access_token)
     end

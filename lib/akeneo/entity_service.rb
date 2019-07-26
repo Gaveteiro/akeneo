@@ -10,7 +10,7 @@ module Akeneo
     end
 
     def create_several_entity_records(entity_name, entity_records)
-      patch_for_collection_request("/reference-entities/#{entity_name}/records", body: entity_records)
+      patch_request("/reference-entities/#{entity_name}/records", body: entity_records)
     end
   end
 end

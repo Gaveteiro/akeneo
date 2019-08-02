@@ -23,11 +23,12 @@ module Akeneo
       product_service.find(sku)
     end
 
-    def products(with_family: nil, with_completeness: nil, updated_after: nil)
+    def products(with_family: nil, with_completeness: nil, updated_after: nil, with_categories: nil)
       product_service.all(
         with_family: with_family,
         with_completeness: with_completeness,
-        updated_after: updated_after
+        updated_after: updated_after,
+        with_categories: with_categories
       )
     end
 

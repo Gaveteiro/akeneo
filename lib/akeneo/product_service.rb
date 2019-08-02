@@ -17,6 +17,17 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
+    def find_by(custom_field, value)
+      hash = {}
+      hash[custom_field] = [{ operator: '=', value: value }]
+      
+      path = "/products?#{pagination_param}&#{limit_param}"
+      path = path + "&search=#{hash.to_json}"
+
+      response = get_request(path)
+      extract_collection_items(response) #.each { |product| products << product }
+    end
+
     def brothers_and_sisters(id)
       akeneo_product = find(id)
       akeneo_parent = load_akeneo_parent(akeneo_product['parent'])
@@ -27,9 +38,9 @@ module Akeneo
       load_products(akeneo_product, akeneo_product['family'], parents)
     end
 
-    def all(with_family: nil, with_completeness: nil, updated_after: nil)
+    def all(with_family: nil, with_completeness: nil, updated_after: nil, with_categories: nil)
       Enumerator.new do |products|
-        path = build_path(with_family, with_completeness, updated_after)
+        path = build_path(with_family, with_completeness, updated_after, with_categories)
 
         loop do
           response = get_request(path)
@@ -50,12 +61,13 @@ module Akeneo
 
     private
 
-    def build_path(family, completeness, updated_after)
+    def build_path(family, completeness, updated_after, with_categories)
       path = "/products?#{pagination_param}&#{limit_param}"
       path + search_params(
         family: family,
         completeness: completeness,
-        updated_after: updated_after
+        updated_after: updated_after,
+        with_categories: with_categories
       )
     end
 

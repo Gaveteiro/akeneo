@@ -53,7 +53,8 @@ module Akeneo
 
     def where(attribute, condition, value)
       path = "products?search={'#{attribute}':[{'operator':'#{condition}','value':'#{value}'}]}"
-      path
+      response = get_request(path)
+      extract_collection_items(response)
     end
 
     def create_or_update(code, options)

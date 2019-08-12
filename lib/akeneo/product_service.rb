@@ -51,6 +51,11 @@ module Akeneo
       end
     end
 
+    def where(attribute, condition, value)
+      path = "products?search={'#{attribute}':[{'operator':'#{condition}','value':'#{value}'}]}"
+      path
+    end
+
     def create_or_update(code, options)
       patch_request("/products/#{code}", body: options.to_json)
     end

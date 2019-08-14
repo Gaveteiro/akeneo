@@ -55,7 +55,7 @@ module Akeneo
       query_string = {"#{attribute}": [{ operator: condition, value: value }]}.to_json
       path = "products?search=#{query_string}"
       response = get_request(path)
-      extract_collection_items(response)
+      response
     end
 
     def create_or_update(code, options)

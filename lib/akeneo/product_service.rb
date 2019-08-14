@@ -52,7 +52,8 @@ module Akeneo
     end
 
     def where(attribute, condition, value)
-      path = "products?search={'#{attribute}':[{'operator':'#{condition}','value':'#{value}'}]}"
+      query_string = {"#{attribute}": [{ operator: condition, value: value }]}.to_json
+      path = "products?search=#{query_string}"
       response = get_request(path)
       extract_collection_items(response)
     end

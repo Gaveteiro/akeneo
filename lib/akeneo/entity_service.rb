@@ -18,5 +18,18 @@ module Akeneo
 
       response.parsed_response if response.success?
     end
+
+    def all(entity_code)
+      Enumerator.new do |entity|
+        request_url = "/reference-entities/#{entity_code}/records"
+
+        loop do
+          response = get_request(request_url)
+          extract_collection_items(response).each { |entity| entities << entity }
+          request_url = extract_next_page_path(response)
+          break unless request_url
+        end
+      end
+    end
   end
 end

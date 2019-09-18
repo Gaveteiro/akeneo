@@ -20,7 +20,7 @@ module Akeneo
     end
 
     def all(entity_code)
-      Enumerator.new do |entity|
+      Enumerator.new do |entities|
         request_url = "/reference-entities/#{entity_code}/records"
 
         loop do

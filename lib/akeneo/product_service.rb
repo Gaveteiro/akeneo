@@ -52,7 +52,15 @@ module Akeneo
     end
 
     def where(attribute, condition, value, page=nil)
-      query_string = {"#{attribute}": [{ operator: condition, value: value }]}.to_json
+      query_string = {
+        "#{attribute}": [{ operator: condition, value: value }],
+        "atributo_situacao": [{"operator": "NOT IN", "value": ["5","7","8","9"]}],
+        "atributo_altura_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_largura_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_comprimento_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_peso_bruto_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_peso_liquido_erp": [{"operator": "NOT EMPTY"}]
+      }.to_json
       # path = "/products?search=#{query_string}"
 
       path = "/products?pagination_type=page&limit=20&with_count=true&search=#{query_string}"

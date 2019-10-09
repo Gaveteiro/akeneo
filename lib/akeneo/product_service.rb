@@ -51,9 +51,10 @@ module Akeneo
       end
     end
 
-    def where(attribute, condition, value)
+    def where(attribute, condition, value, page=nil)
       query_string = {"#{attribute}": [{ operator: condition, value: value }]}.to_json
-      path = "/products?search=#{query_string}"
+      path = "/products?pagination_type=page&page=#{page}&limit=20&with_count=true&search=#{query_string}"
+      # path = "/products?search=#{query_string}"
       response = get_request(path)
       extract_collection_items(response)
     end

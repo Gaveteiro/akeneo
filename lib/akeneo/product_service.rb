@@ -66,16 +66,18 @@ module Akeneo
       path = "/products?pagination_type=page&limit=20&with_count=true&search=#{query_string}"
       path += "&page=#{page}" if page.present?
       
-      Enumerator.new do |products|
-        loop do
-          response = get_request(path)
-          extract_collection_items(response).each { |product| products << product }
-          path = extract_next_page_path(response)
-          break unless path
-        end
-      end
-      # response = get_request(path)
-      # extract_collection_items(response)
+      # Enumerator.new do |products|
+      #   loop do
+      #     response = get_request(path)
+      #     extract_collection_items(response).each { |product| products << product }
+      #     path = extract_next_page_path(response)
+      #     break unless path
+      #   end
+      # end
+      response = get_request(path)
+      # total_items = response.parsed_response['items_count']
+
+      extract_collection_items_with_count(response)
     end
 
     def create_or_update(code, options)

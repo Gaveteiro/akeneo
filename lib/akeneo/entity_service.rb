@@ -8,6 +8,10 @@ module Akeneo
       @url = url
       @access_token = access_token
     end
+    
+    def create_or_update(entity_name, entity_code, entity_record)
+      patch_request("/reference-entities/#{entity_name}/records/#{entity_code}", body: entity_record)
+    end
 
     def create_several_entity_records(entity_name, entity_records)
       patch_request("/reference-entities/#{entity_name}/records", body: entity_records)

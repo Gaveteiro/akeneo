@@ -29,7 +29,7 @@ module Akeneo
 
       path = "/reference-entities/#{entity_code}/records"
       path = path + "?search=#{hash.to_json}"
-        
+      debugger
       response = get_request(path)
       extract_collection_items(response)
     end

@@ -23,6 +23,18 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
+    def last_updated_in(updated_time)
+      path = "/reference-entities/#{entity_code}/records?"
+      path += format('search={"updated":[{"operator":">","value":"%<date>s"}]}', date: updated_time.strftime('%F %T'))
+      
+      loop do
+        response = get_request(path)
+        extract_products(response).each { |product| products << product }
+        path = extract_next_page_path(response)
+        break unless path
+      end
+    end
+
     def all(entity_code)
       Enumerator.new do |entities|
         request_url = "/reference-entities/#{entity_code}/records"

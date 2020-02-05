@@ -29,7 +29,7 @@ module Akeneo
         hash["updated"] = [{ operator: '>', value: updated_time.strftime('%F %T%Z') }]
 
         path = "/reference-entities/#{entity_code}/records?"
-        path += hash.to_json
+        path = path + "?search=#{hash.to_json}"
         debugger 
         loop do
           response = get_request(path)

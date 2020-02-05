@@ -23,7 +23,7 @@ module Akeneo
       response.parsed_response if response.success?
     end
 
-    def last_updated_in(updated_time)
+    def last_updated_in(record_code, updated_time)
       path = "/reference-entities/#{entity_code}/records?"
       path += format('search={"updated":[{"operator":">","value":"%<date>s"}]}', date: updated_time.strftime('%F %T'))
       

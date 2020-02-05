@@ -24,14 +24,21 @@ module Akeneo
     end
 
     def last_updated_in(entity_code, updated_time)
-      hash = {}
-      hash["updated"] = [{ operator: '>', value: updated_time.strftime('%F %T%Z') }]
+      Enumerator.new do |entities|  
+        hash = {}
+        hash["updated"] = [{ operator: '>', value: updated_time.strftime('%F %T%Z') }]
 
-      path = "/reference-entities/#{entity_code}/records"
-      path = path + "?search=#{hash.to_json}"
-      debugger
-      response = get_request(path)
-      extract_collection_items(response)
+        path = "/reference-entities/#{entity_code}/records"
+        path = path + "?search=#{hash.to_json}"
+        
+        loop do
+          response = get_request(path)
+          extract_collection_items(response).each { |entity| entities << entity }
+          path = extract_next_page_path(response)
+          break unless path
+          path = path + "?search=#{hash.to_json}"
+        end
+      end
     end
 
     def all(entity_code)

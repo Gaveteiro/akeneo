@@ -24,14 +24,16 @@ module Akeneo
     end
 
     def last_updated_in(entity_code, updated_time)
-      path = "/reference-entities/#{entity_code}/records?"
-      path += format('search={"updated":[{"operator":">","value":"%<date>s"}]}', date: updated_time.strftime('%F %T'))
-      
-      loop do
-        response = get_request(path)
-        extract_collection_items(response).each { |entity| entities << entity }
-        path = extract_next_page_path(response)
-        break unless path
+      Enumerator.new do |entities|
+        path = "/reference-entities/#{entity_code}/records?"
+        path += format('search={"updated":[{"operator":">","value":"%<date>s"}]}', date: updated_time.strftime('%F %T'))
+        
+        loop do
+          response = get_request(path)
+          extract_collection_items(response).each { |entity| entities << entity }
+          path = extract_next_page_path(response)
+          break unless path
+        end
       end
     end
 

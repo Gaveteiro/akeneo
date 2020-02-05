@@ -29,7 +29,7 @@ module Akeneo
       
       loop do
         response = get_request(path)
-        extract_products(response).each { |product| products << product }
+        extract_collection_items(response).each { |entity| entities << entity }
         path = extract_next_page_path(response)
         break unless path
       end

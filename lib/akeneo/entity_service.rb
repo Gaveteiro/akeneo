@@ -27,7 +27,7 @@ module Akeneo
       Enumerator.new do |entities|
         path = "/reference-entities/#{entity_code}/records?"
         path += format('search={"updated":[{"operator":">","value":"%<date>s"}]}', date: updated_time.strftime('%F %T%Z'))
-        
+        debugger
         loop do
           response = get_request(path)
           extract_collection_items(response).each { |entity| entities << entity }

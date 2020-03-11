@@ -51,6 +51,35 @@ module Akeneo
       end
     end
 
+    def where(attribute, condition, value, page=nil)
+      query_string = {
+        "#{attribute}": [{ operator: condition, value: value }],
+        "atributo_situacao": [{"operator": "NOT IN", "value": ["5","7","8","9"]}],
+        "atributo_altura_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_largura_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_comprimento_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_peso_bruto_erp": [{"operator": "NOT EMPTY"}],
+        "atributo_peso_liquido_erp": [{"operator": "NOT EMPTY"}]
+      }.to_json
+      # path = "/products?search=#{query_string}"
+
+      path = "/products?pagination_type=page&limit=20&with_count=true&search=#{query_string}"
+      path += "&page=#{page}" if page.present?
+      
+      # Enumerator.new do |products|
+      #   loop do
+      #     response = get_request(path)
+      #     extract_collection_items(response).each { |product| products << product }
+      #     path = extract_next_page_path(response)
+      #     break unless path
+      #   end
+      # end
+      response = get_request(path)
+      # total_items = response.parsed_response['items_count']
+
+      extract_collection_items_with_count(response)
+    end
+
     def create_or_update(code, options)
       patch_request("/products/#{code}", body: options.to_json)
     end

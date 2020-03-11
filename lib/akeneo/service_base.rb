@@ -96,6 +96,15 @@ module Akeneo
       response.parsed_response['_embedded']['items']
     end
 
+    def extract_collection_items_with_count(response)
+      return [] unless response.success?
+
+      {
+        items_count: response.parsed_response['items_count'],
+        products: response.parsed_response['_embedded']['items']
+      }
+    end
+
     def extract_next_page_path(response)
       return unless response.success?
 

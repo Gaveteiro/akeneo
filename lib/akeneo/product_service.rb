@@ -20,12 +20,23 @@ module Akeneo
     def find_by(custom_field, value)
       hash = {}
       hash[custom_field] = [{ operator: '=', value: value }]
-      
+
       path = "/products?#{pagination_param}&#{limit_param}"
       path = path + "&search=#{hash.to_json}"
 
       response = get_request(path)
       extract_collection_items(response) #.each { |product| products << product }
+    end
+
+    def find_many(custom_field, values)
+      hash = {}
+      hash[custom_field] = [{ operator: 'IN', value: values }]
+
+      path = "/products?#{pagination_param}&#{limit_param}"
+      path = path + "&search=#{hash.to_json}"
+
+      response = get_request(path)
+      extract_collection_items(response)
     end
 
     def brothers_and_sisters(id)
@@ -65,7 +76,7 @@ module Akeneo
 
       path = "/products?pagination_type=page&limit=20&with_count=true&search=#{query_string}"
       path += "&page=#{page}" if page.present?
-      
+
       # Enumerator.new do |products|
       #   loop do
       #     response = get_request(path)

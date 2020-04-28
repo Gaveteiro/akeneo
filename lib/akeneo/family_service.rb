@@ -28,5 +28,9 @@ module Akeneo
 
       response.parsed_response if response.success?
     end
+
+    def create_or_update_variant(family, code, options)
+      patch_request("/families/#{family}/variants/#{code}", body: options.to_json)
+    end
   end
 end

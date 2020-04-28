@@ -36,7 +36,8 @@ module Akeneo
 
       options = {
         body: refresh_body(@refresh_token),
-        headers: json_headers.merge(basic_authorization_header)
+        headers: json_headers.merge(basic_authorization_header),
+        read_timeout: 300
       }
       response = HTTParty.post("#{@url}/api/oauth/v1/token", options)
       store_tokens!(response)

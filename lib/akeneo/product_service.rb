@@ -76,7 +76,6 @@ module Akeneo
 
       path = "/products?pagination_type=page&limit=20&with_count=true&search=#{query_string}"
       path += "&page=#{page}" if page.present?
-
       # Enumerator.new do |products|
       #   loop do
       #     response = get_request(path)

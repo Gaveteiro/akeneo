@@ -25,7 +25,7 @@ module Akeneo
 
     def last_updated_in(entity_code, updated_time)
       hash = {}
-      hash["updated"] = [{ operator: '>', value: updated_time.strftime('%F %T%Z') }]
+      hash["updated"] = [{ operator: '>', value: updated_time.strftime('%FT%TZ') }]
       
       path = "/reference-entities/#{entity_code}/records"
       path = path + "?search=#{hash.to_json}"

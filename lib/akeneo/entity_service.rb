@@ -27,11 +27,17 @@ module Akeneo
       hash = {}
       hash["updated"] = [{ operator: '>', value: updated_time.strftime('%FT%TZ') }]
       
-      path = "/reference-entities/#{entity_code}/records"
-      path = path + "?search=#{hash.to_json}"
-      
-      response = get_request(path)
-      extract_collection_items(response)
+      Enumerator.new do |entities|
+        path = "/reference-entities/#{entity_code}/records"
+        request_url = path + "?search=#{hash.to_json}"
+        
+        loop do
+          response = get_request(request_url)
+          extract_collection_items(response).each { |entity| entities << entity }
+          request_url = extract_next_page_path(response)
+          break unless request_url
+        end
+      end
     end
 
     def all(entity_code)
